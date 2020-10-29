@@ -4,13 +4,14 @@ MAINTAINER Joe Urciuoli
 
 ENV PYTHONBUFFERED 1
 
-RUN /sbin/apk add --no-cache --virtual .deps gcc musl-dev \
-    && /usr/local/bin/pip install --no-cache-dir black==19.10b0 \
-    && /sbin/apk del --no-cache .deps
-
 COPY ./requirements.txt /requirements.txt
+RUN apk add --update --no-cache postgresql-client
+RUN apk add --update --no-cache --virtual .tmp-build-deps \
+    gcc libc-dev linux-headers postgresql-dev
+
 RUN pip install --upgrade pip
 RUN pip install -r /requirements.txt
+RUN apk del .tmp-build-deps
 
 RUN mkdir /app
 WORKDIR /app
