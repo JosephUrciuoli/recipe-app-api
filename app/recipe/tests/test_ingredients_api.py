@@ -66,7 +66,7 @@ class PrivateIngredientsApiTests(TestCase):
 
     def test_create_ingredient_successful(self):
         """ Test creating a new ingredient """
-        payload = {"name": "Test Ingredient"}
+        payload = {"name": "Test Ingredient", "origin": "USA"}
         self.client.post(INGREDIENTS_URL, payload)
 
         exists = Ingredient.objects.filter(
